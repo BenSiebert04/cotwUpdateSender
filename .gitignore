@@ -36,4 +36,9 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# Bot-spezifische Dateien
 users.json
+history.json
+steam/
+epic/

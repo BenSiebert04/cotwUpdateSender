@@ -12,8 +12,12 @@ import java.util.List;
 public class Main {
     public static final String COMMAND_SUB = "subscribehcotw";
     public static final String COMMAND_UNSUB = "unsubscribehcotw";
+    public static final String COMMAND_HISTORY = "historycotw";
 
     public static void main(String[] args) throws Exception {
+        // Initialisiere Ordner für Steam und Epic Dateien
+        DataHelper.initializeFolders();
+        
         JDA jda = JDABuilder
                 .createLight(System.getenv("BOT_TOKEN"),
                         GatewayIntent.DIRECT_MESSAGES,
@@ -22,29 +26,17 @@ public class Main {
                 .build()
                 .awaitReady();
 
-        // 1) Command registrieren
+        // Commands registrieren
         jda.updateCommands()
-                .addCommands(Commands.slash(COMMAND_SUB, "Registriere dich für Updates"),
-                        Commands.slash(COMMAND_UNSUB, "Abmelden von Updates"))
-                .queue(cmdList -> System.out.println("Command gesendet an Discord API"));
-
-
+                .addCommands(
+                        Commands.slash(COMMAND_SUB, "Registriere dich für Updates"),
+                        Commands.slash(COMMAND_UNSUB, "Abmelden von Updates"),
+                        Commands.slash(COMMAND_HISTORY, "Zeige die History der gesendeten Nachrichten und aktuellen Dateien an")
+                )
+                .queue(cmdList -> System.out.println("Commands gesendet an Discord API"));
 
         System.out.println("Bot läuft");
     }
 
-    private static void notifyUsers(JDA jda) throws IOException {
-        List<User> users = DataHelper.loadUserList();
-        List<String> authorizedUserIds = users.stream()
-                .filter(User::isAuthorized)
-                .map(User::getId)
-                .toList();
 
-        for (String userId : authorizedUserIds) {
-            jda.retrieveUserById(userId)
-                    .queue(user -> user.openPrivateChannel()
-                            .flatMap(ch -> ch.sendMessage("✅ Dein Befehl **/subscribehcotw** ist jetzt verfügbar!"))
-                            .queue());
-        }
-    }
 }
