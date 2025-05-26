@@ -4,10 +4,6 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import org.sie.model.User;
-
-import java.io.IOException;
-import java.util.List;
 
 public class Main {
     public static final String COMMAND_SUB = "subscribehcotw";
@@ -22,7 +18,7 @@ public class Main {
                 .createLight(System.getenv("BOT_TOKEN"),
                         GatewayIntent.DIRECT_MESSAGES,
                         GatewayIntent.MESSAGE_CONTENT)
-                .addEventListeners(new ForwardBotListener())
+                .addEventListeners(new BotListener())
                 .build()
                 .awaitReady();
 

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 import static org.sie.Main.*;
 
-public class ForwardBotListener extends ListenerAdapter {
+public class BotListener extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
